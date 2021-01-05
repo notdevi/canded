@@ -94,7 +94,7 @@ class DetailController extends Controller
 
         $transaction_details->delete();
 
-        // Alert::error('Pesanan Sukses Dihapus', 'Hapus');
+        Alert::error('Pesanan Sukses Dihapus', 'Hapus');
         return redirect('cart');
     }
 }
