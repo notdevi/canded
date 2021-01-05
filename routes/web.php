@@ -33,8 +33,8 @@ Route::post('/product/store', 'ItemController@store');
 
 Route::get('detail/{id}', 'DetailController@index');
 
-Route::post('detail/{id}', 'DetailCOntroller@detail');
+Route::post('detail/{id}', 'DetailController@detail');
 
 Route::get('cart', 'DetailController@cart');
 
-Route::delete('cart/{id}', 'DetailController@delete');
+Route::post('cart/{id}', 'DetailController@delete');

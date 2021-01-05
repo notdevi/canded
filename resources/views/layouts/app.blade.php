@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'cande') }}</title>
+    <title>CANDE</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -23,10 +23,10 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm mb-0">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{ url('assets/logo-1.png') }}" width="150" alt="">
+                <a class="navbar-brand mr-0" href="{{ url('/') }}">
+                    <img src="<?php echo asset('assets/logo-1.PNG')?>" width="150" alt="">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -36,7 +36,7 @@
                     <!-- Left Side Of Navbar -->
                     @guest
                     @else
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav ml-0 mr-auto">
                         <div class="offset-md-4 pt-3" style="width: 700px;">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="Search for items, people and brands..." style="font-style: italic;">
@@ -61,12 +61,23 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item mt-auto mb-auto ml-1">
+                            <?php
+                                $pesanan = \App\transaction::where('user_id', Auth::user()->id)->where
+                                ('status', 0)->first();
+                                $count = \App\transaction::where('user_id', Auth::user()->id)->count();
+                                
+                                if($count > 0) {
+                                    $notif = \App\transaction_details::where('transaction_id', $pesanan->id)->count();
+                                }
+                                else $notif = " ";
+                            ?>
+
+                            <li class="nav-item mt-auto mb-auto ml-2">
                                 <button type="submit" class="btn" style="border: none; background-color: white;" onclick="location.href='{{ url('cart') }}'">
-                                <i class="fa fa-shopping-cart"></i></button>                               
+                                <i class="fa fa-shopping-cart"></i><span class="badge badge-pill badge-danger">{{ $notif }}</span></button>                               
                             </li>
-                            <li class="nav-item mt-auto mb-auto ml-1">
-                                <a href="{{ url('/product/create') }}" role="button"> Sell </a>                                
+                            <li class="nav-item mt-auto mb-auto ml-2">
+                                <a href="{{ url('/product/create') }}" role="button" style="text-decoration: none; color: #817e7e;"> Sell </a>                                
                             </li>
                             <li class="nav-item dropdown ml-2">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

@@ -49,7 +49,7 @@
             </p>
 
             <input style="background-color: black; color: white; font-weight: bold;" 
-            class="button btn" type="button" value="Sign Up" href="{{ route('register') }}">
+            class="button btn" type="button" value="Sign Up" onclick="location.href='{{ route('register') }}'">
         </div>
 
         <img style="width: 350px;" src="<?php echo asset('assets/home-2.jpg')?>" alt="">

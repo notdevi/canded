@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\item;
 use App\transaction;
 use App\transaction_details;
+use App\Http\Controllers\Alert;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -60,7 +61,7 @@ class DetailController extends Controller
             $transaction_details = transaction_details::where('item_id', $item->id)->where('transaction_id', $new_transaction->id)->first();
             $transaction_details->amount = $transaction_details->amount+$request->order_qty;
             $new_price_transaction_details =  $item->price*$request->order_qty;
-            $transaction_details->amount_price = $item->price*$request->order_qty+$new_price_transaction_details;
+            $transaction_details->amount_price = $transaction_details->amount_price+$new_price_transaction_details;
             $transaction_details->update();
         }
 
@@ -78,7 +79,6 @@ class DetailController extends Controller
         if(!empty($transaction))
         {
             $transaction_details = transaction_details::where('transaction_id', $transaction->id)->get();
-
         }
         
         return view('cart', compact('transaction', 'transaction_details'));
@@ -92,10 +92,9 @@ class DetailController extends Controller
         $transaction->total_price = $transaction->total_price-$transaction_details->amount_price;
         $transaction->update();
 
-
         $transaction_details->delete();
 
-        Alert::error('Pesanan Sukses Dihapus', 'Hapus');
+        // Alert::error('Pesanan Sukses Dihapus', 'Hapus');
         return redirect('cart');
     }
 }
